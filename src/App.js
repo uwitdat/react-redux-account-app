@@ -15,6 +15,7 @@ function App() {
 
   const [deposit, setDeposit] = useState(0)
   const [withdraw, setWithdraw] = useState(0)
+  const [errMsg, setErrMsg] = useState(false)
 
   const [pastDeposit, setPastDeposit] = useState([
     { amt: 0, date: '' }
@@ -27,18 +28,28 @@ function App() {
   const depositAmt = () => {
     depositMoney(deposit)
     setDeposit(0)
+    setErrMsg(false)
     return deposit === 0 ? null : setPastDeposit(depositArray => [...depositArray, { amt: deposit, date: moment(day).format('dddd, MMMM Do YYYY, h:mm a') }])
   }
 
+
+
   const withdrawAmt = () => {
-    withdrawMoney(withdraw)
-    setWithdraw(0)
-    return withdraw === 0 ? null : setPastWithdrawl(withdrawArray => [...withdrawArray, { amt: withdraw, date: moment(day).format('dddd, MMMM Do YYYY, h:mm a') }])
+    if (withdraw > account) {
+      setErrMsg(true);
+      setWithdraw(0)
+    } else {
+      withdrawMoney(withdraw)
+      setWithdraw(0)
+      return withdraw === 0 ? null : setPastWithdrawl(withdrawArray => [...withdrawArray, { amt: withdraw, date: moment(day).format('dddd, MMMM Do YYYY, h:mm a') }])
+    }
+
   }
 
   return (
     <div className="App">
       <h1 className='balance'>Account Balance: ${account}</h1>
+      {errMsg === true ? <h3 className='alert'>You cannot withdraw more than ${account}</h3> : ''}
 
       <input
         type='number'

@@ -34,3 +34,10 @@
 .div {
   margin-top: 1rem;
 }
+
+.alert {
+  color: red;
+  font-family: "Courier New", Courier, monospace;
+  text-transform: uppercase;
+  font-style: italic;
+}
